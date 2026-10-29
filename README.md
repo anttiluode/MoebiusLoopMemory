@@ -1,5 +1,7 @@
 # MoebiusLoopMemory
 
+![pic](pic.png)
+
 An auditable **temporal memory + contextual gating** research sandbox. It is *not* a model of a real neuron, a physical wave solver, or evidence for a unique advantage of Möbius topology.
 
 **Question:** Can a compact circulating state retain past stimuli while a local, dendrite-inspired multiplicative gate makes relationships between earlier events available to a **linear readout**?
