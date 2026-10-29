@@ -75,3 +75,35 @@ An odd, ungated reservoir must give D=0 for antipodal input, even if its state u
 ## Status
 
 All core code uses NumPy and is intended for replication and falsification. Nine unit tests passed locally on Python 3.13. The 2026-10-29 results and limitations are recorded in RESULTS.md.
+
+
+## Live webcam temporal-memory demo (offline, CPU)
+
+This is a **visualization of the existing equations**, not a trained vision recognizer or a biological wave simulation.
+
+### Windows / Python 3.13
+
+~~~powershell
+python3.13 -m pip install -r requirements-webcam.txt
+python3.13 webcam_demo.py --mirror
+~~~
+
+If camera 0 is occupied or unavailable, try \`python3.13 webcam_demo.py --source 1\`. To test without a webcam:
+
+~~~powershell
+python3.13 webcam_demo.py --simulate
+python3.13 -m unittest discover -s tests -v
+~~~
+
+You may also process an existing video with \`--source example.mp4\` or save a generated dashboard image with \`--simulate --max-frames 160 --no-display --save-preview preview.png\`.
+
+**Controls:** H = stop feeding input while letting the state fade; M = alternate CHANGE and APPEARANCE (resets history); G = switch the displayed history trace between gated and ungated; R = reset; P = pause simulation and camera acquisition; S = save a screenshot locally; Q/Escape = exit.
+
+**What happens:** 16x16 grayscale -> fixed 256-to-16 random projection -> \`LoopMemory.advance\` each frame. The right panel shows 16 state coordinates for two matched recurrent networks (with and without an apical-inspired gate), the selected state history, and the effect of the **same fixed hypothetical probe** in each current state. The probe calculation does **not** modify the stored state. In CHANGE mode an identical frame produces zero input, so fading is visible when the scene stops changing or H is pressed. APPEARANCE mode continuously injects the image and therefore is not a passive fading-memory demonstration.
+
+**Interpretation constraints:**
+- A webcam frame is compressed from 256 image pixels to 16 numbers; that is lossy. The earlier synthetic benchmark does *not* establish high-fidelity visual-frame recall.
+- The readout is **not trained** on real webcam motion, objects, or gestures. Nonzero gate/probe numbers measure numerical state interactions, not recognized actions.
+- 0.92 leakage corresponds to a small-signal linear half-life of about 8.3 processed frames, **not a fixed number of seconds**. Real capture rate varies; this demo advances once per processed frame.
+- OpenCV works on local frames and nothing is uploaded. Images are saved only when S or --save-preview is used.
+- This is the original discrete 16D recurrence, not a physical traveling wave, neuron, or real Möbius strip.
